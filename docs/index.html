@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地球的動態革命：從大陸漂移到板塊構造</title>
+    <style>
+        /* --- 全局重置與基本設定 --- */
+        :root {
+            --primary-color: #005a9c; /* 深度科學藍 */
+            --secondary-color: #333;
+            --background-color: #f4f7f6;
+            --text-color: #333;
+            --header-font: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            --body-font: 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+            --card-bg: #ffffff;
+            --border-radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --code-bg: #2d2d2d; /* 代碼區塊背景色 */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--body-font);
+            line-height: 1.7;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-size: 16px;
+        }
+
+        /* --- 導航列 --- */
+        .navbar {
+            background-color: var(--card-bg);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-family: var(--header-font);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .navbar-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .navbar-links a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- 頁首標題 --- */
+        .hero {
+            background: linear-gradient(rgba(0, 90, 156, 0.8), rgba(0, 90, 156, 0.8)), url('assert/fig1.11.png');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 10rem 2rem 5rem;
+            margin-top: 60px; /* 避開固定的導航列 */
+        }
+
+        .hero h1 {
+            font-family: var(--header-font);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- 主要內容區 --- */
+        .container {
+            max-width: 960px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .chapter {
+            background-color: var(--card-bg);
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        /* 簡易的進場動畫 */
+        .chapter.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chapter h2 {
+            font-family: var(--header-font);
+            font-size: 2.25rem;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .chapter h3 {
+            font-family: var(--header-font);
+            font-size: 1.75rem;
+            color: var(--secondary-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .chapter h4 {
+            font-family: var(--header-font);
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter p, .chapter ul, .chapter ol {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .chapter ul, .chapter ol {
+            margin-left: 1.5rem;
+        }
+        
+        .chapter li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- 圖片與圖說 --- */
+        figure {
+            margin: 1.5rem 0;
+            background: #fafafa;
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+        }
+
+        figure img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 4px;
+        }
+
+        figcaption {
+            margin-top: 0.75rem;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #555;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        /* --- 特別引言 --- */
+        blockquote {
+            border-left: 5px solid var(--primary-color);
+            background-color: #eef7ff;
+            margin: 1.5rem 0;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* --- 作業表格樣式 --- */
+        .assignment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .assignment-table th, 
+        .assignment-table td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .assignment-table th {
+            background-color: #f0f4f8; /* 淺藍灰色 */
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .assignment-table tr:nth-child(even) {
+            background-color: #f9f9f9; /* 斑馬條紋 */
+        }
+
+        .assignment-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* --- 程式碼區塊樣式 --- */
+        pre {
+            background-color: var(--code-bg);
+            color: #f8f8f2; /* 淺色文字 */
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            overflow-x: auto; /* 允許水平滾動 */
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        pre code {
+            font-family: inherit;
+        }
+
+        /* --- 頁尾 --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            background-color: var(--secondary-color);
+            color: #f4f7f6;
+        }
+
+        /* --- 響應式設計 --- */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 0.5rem 1rem;
+            }
+            .navbar-brand {
+                margin-bottom: 0.5rem;
+            }
+            .navbar-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+                font-size: 0.9rem; /* 讓連結塞得下 */
+            }
+            .hero {
+                padding: 6rem 1rem 3rem;
+                margin-top: 100px; /* 調整以適應加高的navbar */
+            }
+            .hero h1 {
+                font-size: 2.25rem;
+            }
+            .chapter {
+                padding: 1.5rem;
+            }
+            .chapter h2 {
+                font-size: 1.75rem;
+            }
+            .chapter h3 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">🌍 地球的動態革命</a>
+        <ul class="navbar-links">
+            <li><a href="#chapter1">漂移假說</a></li>
+            <li><a href="#chapter2">關鍵證據</a></li>
+            <li><a href="#chapter3">板塊誕生</a></li>
+            <li><a href="#chapter4">熱點理論</a></li>
+            <li><a href="#assignment">課程作業</a></li>
+            <li><a href="#example">作業範例</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1>地球的動態革命</h1>
+        <p>從大陸漂移到板塊構造的完整科學探案</p>
+    </header>
+
+    <main class="container">
+
+        <section id="chapter1" class="chapter">
+            <h2>第 1 章：韋格納的大膽假說</h2>
+            <p>我們的故事始於 20 世紀初，一位德國氣象學家**阿爾弗雷德·韋格納 (Alfred Wegener)**。他提出了一個當時被視為異端邪說的理論：「大陸漂移」(Continental Drift)。</p>
+            
+            <h3>拼圖與古氣候證據</h3>
+            <p>韋格納不只是看著地圖，他收集了跨學科的證據。他注意到，如果把大陸拼回去，許多地質現象就能得到完美的解釋。</p>
+            
+            <figure>
+                <img src="assert/fig1.5.png" alt="韋格納的盤古大陸重建圖">
+                <figcaption><strong>Fig. 1.5 (a)</strong> 韋格納的盤古大陸 (Pangaea) 重建圖。他用這個模型解釋了：<br>
+                    <strong>(K) 煤炭：</strong>北美和歐洲的煤炭礦床（形成於熱帶雨林）在拼合後位於古赤道上。<br>
+                    <strong>(E) 冰層：</strong>南美、非洲、印度、澳洲的古冰川遺跡（在今天看來分佈零散）在拼合後完美地匯聚於古南極。
+                </figcaption>
+            </figure>
+
+            <h3>致命的缺陷與遲來的正義</h3>
+            <p>韋格納的證據非常有力，但他的假說卻被當時的學術界嘲笑。為什麼？因為他**無法提供一個合理的「驅動機制」**。</p>
+            <p>他錯誤地認為大陸是像「破冰船」一樣「犁」過堅硬的海底。物理學家計算後證明這根本不可能。這個「致命缺陷」讓他的理論被冰凍了近 50 年。</p>
+            
+            <blockquote>
+                <strong>科學的難題：</strong>韋格納是個偉大的觀察者，但他不是個好的物理學家。他「看到」了什麼 (What)，但他無法解釋「如何」 (How) 和「為什麼」 (Why)。
+            </blockquote>
+
+            <p>直到 1960 年代，隨著電腦的發明，科學家才替他平反。1965 年的 "Bullard Fit" 使用電腦計算，證實了大陸邊緣（在水下 900 公尺處）的吻合度高得驚人，絕對不是巧合。</p>
+
+            <figure>
+                <img src="assert/fig1.6.png" alt="Bullard 電腦拼合大西洋兩岸">
+                <figcaption><strong>Fig. 1.6</strong> Bullard 等人使用電腦，以 500 噚（約 900 公尺）等深線拼合大西洋兩岸。黑色為重疊區域，灰色為空隙，顯示了極高的吻合度。</figcaption>
+            </figure>
+            <figure>
+                <img src="assert/fig1.7.png" alt="電腦拼合岡瓦那大陸">
+                <figcaption><strong>Fig. 1.7</strong> 同樣的電腦技術被用來重建南方的「岡瓦那大陸」(Gondwanaland)。</figcaption>
+            </figure>
+        </section>
+
+        <section id="chapter2" class="chapter">
+            <h2>第 2 章：史上最強的證據</h2>
+            <p>電腦拼圖只證明了「大陸曾經連在一起」，但仍未解釋「它們如何移動」。真正的答案，來自三個完全不同領域的關鍵線索。</p>
+
+            <h3>線索 A：地球的「奶油餅乾」結構</h3>
+            <p>第一個突破來自地震學。我們發現地球的表層並非鐵板一塊，而是可以從「力學」上分為兩層：</p>
+            <ul>
+                <li><strong>岩石圈 (Lithosphere)：</strong>外層堅硬、脆性的「餅乾」。它包含了地殼和一小部分的上部地函。</li>
+                <li><strong>軟流圈 (Asthenosphere)：</strong>岩石圈下方、高溫、具可塑性的「奶油夾心」。</li>
+            </ul>
+            <p><strong>這就是解答！</strong>大陸不是自己「犁」過海底；而是「整塊岩石圈餅乾」（包含大陸和海底）**一起漂浮在「軟流圈奶油」之上！**</p>
+            
+            <figure>
+                <img src="assert/fig1.9.png" alt="地球的力學分層圖">
+                <figcaption><strong>Fig. 1.9</strong> 地球的力學分層：堅硬的「岩石圈」漂浮在具可塑性的「軟流圈」之上。這就是板塊構造的物理基礎。</figcaption>
+            </figure>
+
+            <p>那麼，「餅乾」的邊界在哪裡？</p>
+            <figure>
+                <img src="assert/fig1.10.png" alt="全球地震震央分佈圖">
+                <figcaption><strong>Fig. 1.10</strong> 全球 30,000 次地震的震央分佈圖 (1961-1967)。這些地震點**完美地描繪出了「板塊的邊界」**。因為板塊邊界就是「餅乾」碎裂、摩擦的地方。</figcaption>
+            </figure>
+
+            <h3>線索 B：地球的「地質指南針」</h3>
+            <p>第二個證據來自「古地磁學」。岩石在冷卻時會像「指南針」一樣記錄下當時的磁北極方向。</p>
+            <p>科學家在北美洲和歐洲分別測量了古地磁，發現它們指向**不同的**古北極。這在物理上是不可能的！唯一的解釋是：</p>
+            <blockquote>
+                <strong>不是「北極」在漂移，而是「大陸」在漂移！</strong>
+            </blockquote>
+            <p>當科學家把北美和歐洲在電腦上「拼」回去時，兩條看似不同的「視極漂移路徑」 (APW paths) 完美地重疊成了一條。這證實了大陸真的移動過。</p>
+
+            <figure>
+                <img src="assert/fig1.8.png" alt="古地磁重建的古大陸">
+                <figcaption><strong>Fig. 1.8</strong> 古地磁學家得以重建 4.5 億年前 (a) 和 4.2 億年前 (b) 的大陸位置，顯示了勞倫大陸 (Laurentia) 和波羅的大陸 (Baltica) 正在碰撞，關閉了巨神海 (Iapetus Ocean)。</figcaption>
+            </figure>
+
+            <h3>線索 C：海底的「磁帶錄音機」</h3>
+            <p>這是「決定性證據」(Smoking Gun)。1960 年代，科學家發現了三件事：</p>
+            <ol>
+                <li>地球磁場會不定期「反轉」。</li>
+                <li>Hess 和 Dietz 提出「海底擴張」假說：新地殼在中洋脊生成，向兩側推開。</li>
+                <li>海底玄武岩會記錄下它生成時的磁場方向。</li>
+            </ol>
+            <p><strong>Vine-Matthews-Morley 假說 (1963)</strong> 將三者結合：如果海底擴張是真的，那麼中洋脊就像一台「雙軌磁帶錄音機」，會記錄下地磁反轉的歷史。</p>
+
+            <figure>
+                <img src="assert/fig1.14.png" alt="海底擴張的磁帶錄音機模型">
+                <figcaption><strong>Fig. 1.14</strong> 海底擴張的「磁帶錄音機」模型。岩漿在中洋脊 (ridge axis) 湧出，冷卻時記錄下當下的磁場極性（黑色為正向，白色為反向），然後向兩側移動。</figcaption>
+            </figure>
+
+            <p>這個模型的預測是：在中洋脊兩側，會出現**完美對稱的「磁力異常條帶」**。</p>
+            
+            <figure>
+                <img src="assert/fig1.13.png" alt="雷克雅內斯脊的真實磁力條帶數據">
+                <figcaption><strong>Fig. 1.13</strong> 真實的觀測數據！冰島外海的雷克雅內斯脊 (Reykjanes Ridge) 磁力異常圖。它顯示了以中洋脊為中心、完美對稱的條帶。這證實了海底擴張，並為板塊構造學提供了最強的證據。</figcaption>
+            </figure>
+        </section>
+
+        <section id="chapter3" class="chapter">
+            <h2>第 3 章：板塊構造的誕生</h2>
+            <p>有了這些證據，一個全新的、統一的理論誕生了：**「板塊構造學」(Plate Tectonics)**。這個理論取代了大陸漂移，它說明了地球表面是由十幾個巨大的「岩石圈板塊」組成的。</p>
+            
+            <figure>
+                <img src="assert/fig1.11.png" alt="全球主要板塊分佈圖">
+                <figcaption><strong>Fig. 1.11</strong> 全球主要的岩石圈板塊分佈圖。箭頭和數字顯示了它們的「相對」移動方向和速度（mm/yr）。</figcaption>
+            </figure>
+
+            <h3>板塊的生命週期：誕生、旅程與死亡</h3>
+            <p>我們現在知道，板塊邊界主要有三種類型：</p>
+            <ul>
+                <li><strong>建設型（張裂）：</strong>在中洋脊，板塊分離，新地殼誕生。</li>
+                <li><strong>破壞型（聚合）：</strong>在海溝，一個板塊隱沒到另一個板塊之下，地殼被回收。</li>
+                <li><strong>保守型（錯動）：</strong>在轉形斷層，兩個板塊水平擦身而過。</li>
+            </ul>
+
+            <figure>
+                <img src="assert/fig1.12.png" alt="三種板塊邊界示意圖">
+                <figcaption><strong>Fig. 1.12</strong> 三種板塊邊界示意圖，顯示了板塊如何在球體上互動。</figcaption>
+            </figure>
+            
+            <figure>
+                <img src="assert/fig1.17.png" alt="一個板塊的完整生命週期">
+                <figcaption><strong>Fig. 1.17</strong> 一個板塊的完整生命週期：從「中洋脊」(Spreading Center) 誕生，到「隱沒帶」(Subduction Zone) 死亡並回收。注意大陸（Continent）只是被動地「搭載」在岩石圈板塊上。</figcaption>
+            </figure>
+
+            <h3>定量科學：計算板塊的速度</h3>
+            <p>「磁力條帶」不僅是證據，它還是**「尺」**和**「時鐘」**。</p>
+            <ul>
+                <li><strong>時間：</strong>我們從陸地上的火山岩定年，知道了每次地磁反轉的「確切年代」。</li>
+                <li><strong>距離：</strong>我們測量每條「磁力條帶」到中洋脊的距離。</li>
+            </ul>
+            <p>速度 = 距離 / 時間。就這麼簡單，我們第一次可以**精確計算**出板塊的移動速度！</p>
+
+            <figure>
+                <img src="assert/fig1.15.png" alt="計算海底擴張速率圖表">
+                <figcaption><strong>Fig. 1.15</strong> 計算海底擴張速率。X軸是年齡 (Ma)，Y軸是距離 (km)。線條的「斜率」就是速度。<br>
+                    - **東太平洋隆起 (快)：** 44 mm/yr (半速率)<br>
+                    - **雷克雅內斯脊 (慢)：** 10 mm/yr (半速率)
+                </figcaption>
+            </figure>
+
+            <h3>深入隱沒帶：為什麼會有深層地震？</h3>
+            <p>地震只發生在脆性的岩石中。為什麼板塊插入高溫的地函後，還能在 700 公里深處引發地震？</p>
+            <p><strong>Fig 1.18</strong> 揭示了答案：因為板塊**還沒來得及加熱變軟**，而且它內部正承受著巨大的應力。在淺處，它被自身的重量「拉扯」（張力）；在深處，它受到地函的阻力（壓力）。這些應力導致板塊內部斷裂，產生深層地震。</p>
+            
+            <figure>
+                <img src="assert/fig1.18.png" alt="隱沒板塊的內部應力分析">
+                <figcaption><strong>Fig. 1.18</strong> 隱沒板塊的內部應力分析。實心圓代表「張力」(extension)，空心圓代表「壓力」(compression)。這解釋了「Wadati-Benioff」地震帶的成因。</figcaption>
+            </figure>
+        </section>
+
+        <section id="chapter4" class="chapter">
+            <h2>第 4 章：另一個故事 - 熱點 (Hotspots)</h2>
+            <p>板塊构造理論完美解釋了「邊界」上的活動。但是，要如何解釋像「夏威夷」這樣，在**板塊正中央**的火山？</p>
+            <p>這引出了「熱點」理論。一個熱點就像一支**固定不動的「瓦斯噴槍」**（地函柱），深深地紮根在地函中。而岩石圈板塊則像一塊**不斷在噴槍上移動的「鐵板」**。</p>
+            
+            <figure>
+                <img src="assert/fig1.26.png" alt="夏威夷熱點模型">
+                <figcaption><strong>Fig. 1.26 (b)</strong> 熱點模型示意圖：一個固定的「地函柱」(Mantle plume) 燒穿了移動中的「岩石圈」板塊，形成火山島。<br>
+                <strong>(a)</strong> 板塊移動後，火山熄滅，熱點又在新的位置燒出下一座火山，形成一條年齡漸增的火山島鏈。
+                </figcaption>
+            </figure>
+
+            <h3>海底的「行車記錄器」</h3>
+            <p>如果「熱點」是固定的，那它就是**「絕對參考框架」**。它所「燒」出來的島鏈，就**記錄了板塊的「絕對運動」**。</p>
+            <p>夏威夷島鏈就是太平洋板塊的「行車記錄器」：</p>
+            <ul>
+                <li><strong>圖 1.26 (a)</strong> 顯示，在 4300 萬年前，島鏈的方向發生了**「轉折」**。這不是熱點移動了，而是**太平洋板塊「轉向」了**！</li>
+                <li>我們可以用島的「年齡」和「距離」來計算**「絕對速度」**。</li>
+            </ul>
+
+            <figure>
+                <img src="assert/fig1.27.png" alt="夏威夷島鏈年齡-距離關係圖">
+                <figcaption><strong>Fig. 1.27</strong> 夏威夷島鏈的年齡-距離關係圖。X軸是距離，Y軸是年齡。所有數據點完美地落在一條直線上，其斜率（速度）為 <strong>10 cm/yr</strong>。這就是太平洋板塊的「絕對」移動速度！</figcaption>
+            </figure>
+
+            <p>地球上大約有 40 多個這樣的熱點。它們共同構成了一個「絕對參考框架」，讓我們得以回溯大陸在地球上的真實運動軌跡。</p>
+            
+            <figure>
+                <img src="assert/fig1.25.png" alt="全球 41 個主要熱點分佈圖">
+                <figcaption><strong>Fig. 1.25</strong> 全球 41 個主要熱點的分佈圖。它們是我們追蹤板塊「絕對運動」的基準點。</figcaption>
+            </figure>
+        </section>
+
+        <section id="assignment" class="chapter">
+            <h2>第 5 章：課程作業說明</h2>
+            <p>請根據下方分配的主題板塊，完成以下兩項作業：</p>
+            
+            <ol>
+                <li>
+                    <strong>PyGMT 地圖繪製：</strong><br>
+                    使用 PyGMT 繪製一張研究區域的地圖，必須包含以下元素：
+                    <ul>
+                        <li>地形與地貌 (Topography)</li>
+                        <li>火山分佈 (Volcanoes)</li>
+                        <li>地震分佈 (Earthquakes)</li>
+                        <li>標示出 1-2 個該板塊邊界上的歷史著名地震 (Famous historical earthquakes)</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>板塊邊界說明：</strong><br>
+                    撰寫說明，解釋你所繪製的板塊邊界種類（例如：聚合型、張裂型、轉形斷層），以及這些邊界造成了哪些主要的地形景觀（例如：海溝、火山弧、中洋脊、山脈）。
+                    <ul>
+                        <li><strong>資料來源要求：</strong> 地震資料必須使用 <strong>ObsPy</strong> 套件從 <strong>IRIS</strong> (Incorporated Research Institutions for Seismology) 獲取。</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>分組主題：板塊分配</h3>
+            <p>每位同學請根據下表分配的板塊主題進行研究：</p>
+
+            <table class="assignment-table">
+                <thead>
+                    <tr>
+                        <th>學生姓名</th>
+                        <th>作業主題：板塊</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>王定樺</td><td>Pacific（太平洋板塊）</td></tr>
+                    <tr><td>林圻蓁</td><td>Eurasia（歐亞板塊）</td></tr>
+                    <tr><td>張以蓁</td><td>Nazca（納斯卡板塊）</td></tr>
+                    <tr><td>黃冠維</td><td>Cocos（科科斯板塊）</td></tr>
+                    <tr><td>陳亞歆</td><td>Africa（非洲板塊）</td></tr>
+                    <tr><td>陳佑昇</td><td>Philippine（菲律賓海板塊）</td></tr>
+                    <tr><td>邱定軒</td><td>North America（北美板塊）</td></tr>
+                    <tr><td>楊廂甯</td><td>Scotia（斯科舍板塊）</td></tr>
+                    <tr><td>李政暟</td><td>India（印度板塊）</td></tr>
+                    <tr><td>鍾秉致</td><td>Juan de Fuca（胡安·德富卡板塊）</td></tr>
+                    <tr><td>曾柏凱</td><td>South America（南美板塊）</td></tr>
+                    <tr><td>張智詠</td><td>Caribbean（加勒比板塊）</td></tr>
+                    <tr><td>黃靖家</td><td>Antarctica（南極板塊）</td></tr>
+                    <tr><td>林煜宸</td><td>Australia（澳洲板塊）</td></tr>
+                    <tr><td>何宣樂</td><td>Nazca（納斯卡板塊）</td></tr>
+                    <tr><td>陳柏亘</td><td>Pacific（太平洋板塊）</td></tr>
+                    <tr><td>林靖融</td><td>Eurasia（歐亞板塊）</td></tr>
+                    <tr><td>洪敏書</td><td>Cocos（科科斯板塊）</td></tr>
+                    <tr><td>黃湘甯</td><td>Philippine（菲律賓海板塊）</td></tr>
+                    <tr><td>闕嘉潁</td><td>Africa（非洲板塊）</td></tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section id="example" class="chapter">
+            <h2>第 6 章：作業範例 (納斯卡板塊)</h2>
+            <p>這是一個以「納斯卡板塊 (Nazca Plate)」為主題的完整作業範例。它包含了作業要求的第一部分（Python 程式碼）和第二部分（板塊邊界說明）。</p>
+            
+            <blockquote>
+                <strong>給同學的提示：</strong><br>
+                你需要安裝 <code>pygmt</code>, <code>obspy</code>, 和 <code>pandas</code> 才能執行此程式碼。<br>
+                使用 Anaconda (miniforge) 的環境，你可以透過以下指令安裝：<br>
+                <code>conda install -c conda-forge pygmt obspy pandas</code>
+            </blockquote>
+
+            <h3>Part 1: 範例 Python 程式碼</h3>
+            <p>這支 Python 腳本 (<code>nazca_example.py</code>) 會自動從 IRIS 下載地震資料，載入火山資料，並使用 PyGMT 繪製出符合要求的地圖，最後儲存為 <code>nazca_plate_map.png</code>。</p>
+            
+            <pre><code>
+import obspy
+from obspy.clients.fdsn import Client
+import pygmt
+import pandas as pd
+
+print("PyGMT 和 ObsPy 範例程式：納斯卡板塊 (Nazca Plate)")
+print("開始執行...")
+
+# --- 1. 設定 (Settings) ---
+
+# 設定要下載地震的區域（納斯卡板塊）
+# [lon_min, lon_max, lat_min, lat_max]
+REGION = [-110, -70, -60, 10]
+
+# 設定地震時間範圍
+START_TIME = obspy.UTCDateTime("2010-01-01")
+END_TIME = obspy.UTCDateTime("2025-01-01")
+
+# 最小規模
+MIN_MAGNITUDE = 5.5
+
+# 著名的歷史地震：1960 年智利（瓦爾迪維亞）大地震
+# 這是歷史上儀器記錄到的最大地震
+FAMOUS_EQ = {
+    "lon": -73.05,
+    "lat": -38.29,
+    "depth": 33,
+    "mag": 9.5,
+    "label": "1960 Valdivia EQ (M9.5)"
+}
+
+# 輸出圖片檔案名稱
+OUTPUT_FILE = "nazca_plate_map.png"
+
+# --- 2. 獲取地震資料 (ObsPy) ---
+
+print(f"正在從 IRIS 下載 {START_TIME.year} 至 {END_TIME.year} 的地震資料...")
+try:
+    client = Client("IRIS")
+    catalog = client.get_events(
+        starttime=START_TIME,
+        endtime=END_TIME,
+        minlatitude=REGION[2],
+        maxlatitude=REGION[3],
+        minlongitude=REGION[0],
+        maxlongitude=REGION[1],
+        minmagnitude=MIN_MAGNITUDE,
+    )
+    print(f"成功獲取 {len(catalog)} 筆地震事件。")
+
+except Exception as e:
+    print(f"錯誤：無法從 IRIS 下載資料。 {e}")
+    catalog = obspy.Catalog()
+
+# --- 3. 處理資料 (Pandas) ---
+
+print("正在處理地震資料...")
+# 將 ObsPy Catalog 轉換為 Pandas DataFrame，方便 PyGMT 使用
+data = []
+for event in catalog:
+    try:
+        origin = event.preferred_origin() or event.origins[0]
+        magnitude = event.preferred_magnitude() or event.magnitudes[0]
+        
+        data.append({
+            "lon": origin.longitude,
+            "lat": origin.latitude,
+            "depth": origin.depth / 1000,  # 深度從 m 轉換為 km
+            "mag": magnitude.mag,
+            "time": origin.time.strftime("%Y-%m-%d")
+        })
+    except Exception:
+        # 忽略缺少必要資訊的事件
+        continue
+
+eq_df = pd.DataFrame(data)
+
+# 載入全球火山資料並篩選
+print("正在載入火山資料...")
+volcano_df = pygmt.datasets.load_sample_data("world_volcanoes")
+# 篩選出在我們區域內的火山
+volcano_df = volcano_df[
+    (volcano_df.longitude >= REGION[0]) & (volcano_df.longitude <= REGION[1]) &
+    (volcano_df.latitude >= REGION[2]) & (volcano_df.latitude <= REGION[3])
+]
+print(f"篩選出 {len(volcano_df)} 座火山。")
+
+
+# --- 4. 繪製地圖 (PyGMT) ---
+
+print("開始使用 PyGMT 繪製地圖...")
+fig = pygmt.Figure()
+
+# 建立地震深度使用的色標 (CPT)
+# 0-70km (淺), 70-300km (中), 300-700km (深)
+pygmt.makecpt(
+    cmap="viridis",         # 使用 'viridis' 色標
+    series=[0, 700],        # 範圍 0 到 700 km
+    reverse=True,           # 反轉色標，讓淺層更亮
+    background=True         # 讓超出範圍的值變成透明
+)
+
+# 繪製底圖：地形 + 陰影
+# 使用 02m (2-minute) 解析度的全球地形資料
+grid = pygmt.datasets.load_earth_relief(resolution="02m", region=REGION)
+fig.grdimage(grid=grid, projection="M15c", frame=True, cmap="geo", shading=True)
+
+# 繪製海岸線與國界
+fig.coast(
+    shorelines="1/0.5p,black",   # 海岸線 0.5p 粗, 黑色
+    borders="1/0.2p,gray",       # 國界 0.2p 粗, 灰色
+    water="skyblue"              # 水體顏色
+)
+
+# 加上經緯網格
+fig.basemap(frame=["a", "+t納斯卡板塊 (Nazca Plate) 地震與火山活動圖"])
+
+# 繪製火山 (紅色三角形)
+fig.plot(
+    x=volcano_df.longitude,
+    y=volcano_df.latitude,
+    style="t0.25c",              # 三角形, 0.25cm
+    color="red",
+    pen="0.5p,black",
+    label="火山 (Volcano)"
+)
+
+# 繪製 M5.5+ 地震
+# 依據 'depth' 欄位使用色標 (cmap=True)
+# 依據 'mag' 欄位調整大小 (size=...)
+fig.plot(
+    x=eq_df.lon,
+    y=eq_df.lat,
+    style="c",                   # 圓形
+    # 尺寸：(規模 * 0.05) cm。可自行調整比例
+    size=eq_df.mag * 0.05,
+    cmap=True,                   # 啟用色標 (使用上面 makecpt 的設定)
+    zvalue=eq_df.depth,          # 依據深度上色
+    color="white@50",            # 50% 透明度的白色
+    pen="0.5p,black",
+    label="M5.5+ 地震 (依深度著色)"
+)
+
+# 繪製 1960 智利大地震 (M9.5)
+fig.plot(
+    x=FAMOUS_EQ["lon"],
+    y=FAMOUS_EQ["lat"],
+    style="a0.5c",               # 星形, 0.5cm
+    color="yellow",
+    pen="1p,red",
+    label=f"著名地震: {FAMOUS_EQ['label']}"
+)
+
+# 標註 1960 智利大地震
+fig.text(
+    x=FAMOUS_EQ["lon"],
+    y=FAMOUS_EQ["lat"],
+    text=FAMOUS_EQ['label'],
+    font="10p,Helvetica-Bold,black",
+    justify="LM",                # 文字在標點的左中 (Left-Middle)
+    offset="0.5c/0c"             # 向右偏移 0.5cm
+)
+
+# 加上地震深度色標
+fig.colorbar(
+    frame=["+l地震深度", "a100", "f", "+u km"],
+    position="JMR+o0.5c/0c+w7c/0.4c" # 右中位置
+)
+
+# 加上圖例
+fig.legend(position="JBL+o0.5c/0.5c", box="+gwhite+p1p") # 左下角
+
+# 儲存地圖
+print(f"地圖繪製完成，儲存至 {OUTPUT_FILE}...")
+fig.savefig(OUTPUT_FILE)
+fig.show()
+
+print("程式執行完畢。")
+            </code></pre>
+
+            <h3>Part 2: 範例地圖 (假想)</h3>
+            <p>執行完上面的 Python 程式碼後，你就會得到一張名為 <code>nazca_plate_map.png</code> 的圖片。請將它放入 <code>assert</code> 資料夾，並像下面這樣在網頁中展示它：</p>
+            
+            <figure>
+                <img src="assert/fig1.11.png" alt="納斯卡板塊地圖範例 (nazca_plate_map.png)">
+                <figcaption><strong>範例地圖：</strong>納斯卡板塊 (Nazca Plate) 地震與火山活動圖。這張圖是由 Part 1 的 Python 程式碼生成的。</figcaption>
+            </figure>
+
+            <h3>Part 3: 範例板塊邊界說明</h3>
+            <p>這部分是作業的第二題：分析你所繪製的地圖。</p>
+            
+            <h4>板塊：納斯卡板塊 (Nazca Plate)</h4>
+            <p><strong>分析：</strong>納斯卡板塊是一個位於東太平洋的年輕海洋板塊，它完美地展示了板塊構造的兩種主要邊界類型：</p>
+
+            <h4>1. 東側邊界 (聚合型 / 破壞型)</h4>
+            <ul>
+                <li><strong>互動板塊：</strong> 納斯卡板塊 (Nazca) <strong>聚合</strong> 南美板塊 (South American Plate)。</li>
+                <li><strong>邊界類型：</strong> 聚合型隱沒帶 (Convergent Subduction Zone)。</li>
+                <li><strong>造成地形：</strong>
+                    <ol>
+                        <li><strong>秘魯-智利海溝 (Peru-Chile Trench)：</strong> 這是納斯卡板塊向下隱沒到南美板塊之下所形成的深邃海溝。</li>
+                        <li><strong>安地斯山脈 (Andes Mountains)：</strong> 隱沒的板塊在深處熔融，岩漿上升，形成了地球上最長的大陸火山山脈。</li>
+                    </ol>
+                </li>
+                <li><strong>地圖證據：</strong>
+                    <ul>
+                        <li><strong>火山：</strong> 地圖清楚顯示，所有火山（紅色三角形）都<strong>沿著南美洲大陸邊緣</strong>呈線狀分佈，這就是安地斯火山弧。</li>
+                        <li><strong>地震：</strong> 地震活動提供了最強的證據。我們可以看到一個清晰的<strong>「Wadati-Benioff 帶」</strong>：
+                            <ul>
+                                <li>在海溝附近（西側）的地震是<strong>淺層</strong>的（圖中顯示為黃色）。</li>
+                                <li>越往大陸（東側）內部，地震的<strong>深度越深</strong>（變為綠色、藍色）。</li>
+                            </ul>
+                        </li>
+                        <li><strong>歷史地震：</strong> 標註的 1960 年 M9.5 智利大地震就是發生在兩個板塊之間的「巨型逆衝地震」(Megathrust)，這是隱沒帶最強烈的地震類型。</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>2. 西側邊界 (張裂型 / 建設型)</h4>
+            <ul>
+                <li><strong>互動板塊：</strong> 納斯卡板塊 (Nazca) <strong>張裂</strong> 太平洋板塊 (Pacific Plate)。</li>
+                <li><strong>邊界類型：</strong> 張裂型中洋脊 (Divergent Mid-Ocean Ridge)。</li>
+                <li><strong>造成地形：</strong>
+                    <ol>
+                        <li><strong>東太平洋隆起 (East Pacific Rise)：</strong> 這是一個海底山脈，新生的海洋地殼在這裡被創造出來，並向東西兩側擴張。</li>
+                    </ol>
+                </li>
+                <li><strong>地圖證據：</strong>
+                    <ul>
+                        <li><strong>地震：</strong> 地圖顯示，在東太平洋隆起（板塊的西側邊界）上，有<strong>密集的淺層地震</strong>（黃色）。這些是岩漿上升和地殼拉張造成的典型中洋脊地震。</li>
+                        <li><strong>火山：</strong> 與隱沒帶的鏈狀火山不同，這裡的火山活動大多在海底（例如海底熱泉）。</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>這場從「大陸漂移」到「板塊構造」的科學革命，是地球科學史上最偉大的整合。<br>
+        它教會我們，地球是一個不斷演化、生生不息的動態系統。</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">&copy; 2025 地球物理學教室。由 Gemini 協助編譯。</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chapters = document.querySelectorAll('.chapter');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersectTing) {
+                        entry.target.classList.add('is-visible');
+                        // 觀測到後就停止觀測，動畫只放一次
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1 // 進入可視範圍 10% 時觸發
+            });
+
+            chapters.forEach(chapter => {
+                observer.observe(chapter);
+            });
+        });
+    </script>
+
+</body>
+</html>
